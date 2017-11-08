@@ -328,4 +328,61 @@ class AvlTree<T extends Comparable<? super T>> {
 
         return true;
     }
+    
+    public boolean hasRoute(T x, T y){
+        AvlNode<T> aux = getNode(x, root);
+        if(aux != null){
+            return contains(y, aux);
+        }
+        return false;
+    }
+    
+    protected AvlNode<T> getNode(T y, AvlNode<T> t) {
+        if (t == null) {
+            return null;
+        } else if (y.compareTo(t.element) < 0) {
+            return getNode(y, t.left);
+        } else if (y.compareTo(t.element) > 0) {
+            return getNode(y, t.right);
+        }
+        return t;
+    }
+    
+    public boolean isFull(){
+        return isFull(root);
+    }
+    
+    protected boolean isFull(AvlNode<T> t){
+        if(t == null){
+            return true;
+        }else if ((t.left == null && t.right == null) || (t.left != null && t.right != null) ){
+            return (isFull(t.left) && isFull(t.right));
+        }
+        return false;
+    }
+    
+    public int level(){
+        return height(root)-1;
+    }
+    
+    public int treeHeight(){
+        return height(root);
+    }
+    
+    public int treeWeight(){
+        if(root != null){
+            return weight(root.left) + weight(root.right);
+        }
+        return 0;
+    }
+    
+    protected int weight(AvlNode<T> t){
+        if(t == null){
+            return 0;
+        }else{
+            return weight(t.left) + weight(t.right) + 1;
+        }
+    }
+    
+    
 }
